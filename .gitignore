@@ -21,3 +21,13 @@ override.tf.json
 # Terraform CLI configuration files
 .terraformrc
 terraform.rc
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+*tfplan*
+
+# Terragrunt
+.terragrunt-cache
+
+# Custom
+.env
+env.hcl
