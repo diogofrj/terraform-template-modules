@@ -81,8 +81,8 @@ git:
 	@read -p "Digite sua mensagem de commit: " message; \
 	read -p "Digite a tag (ex: v1.0.0): " tag; \
 	git commit -m "$$message"; \
-	git tag -a $$tag -m "$$message"; \
-	git push origin $$tag
+	git tag -a $$tag -m "$$message" -f; \
+	git push origin $$tag -f
 	@git push
 
 clean:
