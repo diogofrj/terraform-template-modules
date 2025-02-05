@@ -81,3 +81,11 @@ git:
 	@read -p "Digite sua mensagem de commit: " message; \
 	git commit -m "$$message"
 	@git push
+
+clean:
+	@echo ""
+	@echo "Limpando cache do Terragrunt"
+	@find . -type d -name '.terragrunt-cache' -prune -exec rm -rf {} \;
+	@echo "Limpando cache do Terraform"
+	@find . -type d -name '.terraform' -prune -exec rm -rf {} \;
+

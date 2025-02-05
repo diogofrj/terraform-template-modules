@@ -1,10 +1,11 @@
 module "labels" {
-  source = "../"
-    project = "myapp"
-    environment = "dev" 
-    region = "eastus2"
-    organization = "myorg"
-    CC = "123456"
+  source = "git::https://github.com/diogofrj/templates-tf-modules.git//examples/azure/labels?ref=v0.0.1"
+  #   source = "../"
+  project = "myapp"
+  environment = "dev"
+  region = "eastus2"
+  organization = "myorg"
+  CC = "123456"
     CC_OWNER = "myowner"
     Vertical = "myvertical"  
 }
