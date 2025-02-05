@@ -29,5 +29,7 @@ terraform.rc
 .terragrunt-cache
 
 # Custom
-.env
+.env*
 env.hcl
+.env
+.env
