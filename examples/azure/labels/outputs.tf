@@ -167,3 +167,33 @@ output "tags" {
   description = "Tags"
   value       = local.tags
 }
+
+output "project" {
+  description = "Nome do projeto"
+  value       = var.project
+}
+
+output "environment" {
+  description = "Ambiente (dev, prod, etc.)"
+  value       = var.environment
+}
+
+output "organization" {
+  description = "Nome da organização"
+  value       = var.organization
+}
+
+output "CC" {
+  description = "Código de custo"
+  value       = var.CC
+}
+
+output "CC_OWNER" {
+  description = "Proprietário do código de custo"
+  value       = var.CC_OWNER
+}
+
+output "Vertical" {
+  description = "Vertical do projeto"
+  value       = var.Vertical
+}

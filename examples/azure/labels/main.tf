@@ -38,12 +38,14 @@ locals {
     dns_resolver_name   = lower("dnspr-${var.project}-${var.environment}-${var.region}")
   }
   tags = {
-    organization = var.organization
-    project      = var.project
-    environment  = var.environment
-    CC           = var.CC
-    CC_OWNER     = var.CC_OWNER
-    Vertical     = var.Vertical
+    for k, v in {                                # Linha 41: Inicia um loop que itera sobre um mapa de chave-valor
+      organization = var.organization
+      project      = var.project
+      environment  = var.environment
+      CC           = var.CC
+      CC_OWNER     = var.CC_OWNER
+      Vertical     = var.Vertical
+    } : k => v if v != ""                       # Linha 48: Cria um novo mapa filtrando apenas valores não vazios
   }
 }
 

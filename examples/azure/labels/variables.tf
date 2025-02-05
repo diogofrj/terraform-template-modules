@@ -1,13 +1,11 @@
 variable "project" {
   description = "Nome do projeto"
   type        = string
-  default     = null
 }
 
 variable "environment" {
-  description = "Ambiente (ex: dev, qa, prod)"
+  description = "Ambiente (dev, prod, etc.)"
   type        = string
-  default     = null
 }
 
 variable "region" {
@@ -18,23 +16,19 @@ variable "region" {
 variable "organization" {
   description = "Nome da organização"
   type        = string
-  default     = null
 }
 
 variable "CC" {
-  description = "Centro de custo"
+  description = "Código de custo"
   type        = string
-  default     = null
 }
 
 variable "CC_OWNER" {
-  description = "Proprietário do centro de custo"
+  description = "Proprietário do código de custo"
   type        = string
-  default     = null
 }
 
 variable "Vertical" {
-  description = "Vertical de negócios"
+  description = "Vertical do projeto"
   type        = string
-  default     = null
 }
