@@ -1,3 +1,8 @@
+output "region" {
+  description = "Região"
+  value       = local.naming_convention.location
+}
+
 output "db_subnet_name" {
   description = "Nome da sub-rede DB"
   value       = local.naming_convention.db_subnet_name
