@@ -21,3 +21,4 @@ terraform.rc
 .terragrunt-cache
 
 .env
+.env
