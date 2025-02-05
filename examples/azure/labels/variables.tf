@@ -13,7 +13,6 @@ variable "environment" {
 variable "region" {
   description = "Região onde os recursos serão criados"
   type        = string
-  default     = null
 }
 
 variable "organization" {

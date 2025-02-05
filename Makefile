@@ -79,7 +79,10 @@ git:
 	@echo "Git add, commit e push"
 	@git add .
 	@read -p "Digite sua mensagem de commit: " message; \
-	git commit -m "$$message"
+	read -p "Digite a tag (ex: v1.0.0): " tag; \
+	git commit -m "$$message"; \
+	git tag -a $$tag -m "$$message"; \
+	git push origin $$tag
 	@git push
 
 clean:

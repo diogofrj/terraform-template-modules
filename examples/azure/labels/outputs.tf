@@ -1,6 +1,6 @@
 output "region" {
-  description = "Região"
-  value       = local.naming_convention.location
+  description = "Região definida para os recursos"
+  value       = var.region
 }
 
 output "db_subnet_name" {
