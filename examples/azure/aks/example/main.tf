@@ -3,7 +3,7 @@ module "labels" {
   project      = "myapp"
   environment  = "dev"
   region       = "eastus2"
-  # As outras variáveis (organization, CC, CC_OWNER, Vertical) serão preenchidas com valores padrão (vazios)
+  # As variáveis organization, CC, CC_OWNER e Vertical são opcionais e não precisam ser passadas
 }
 
 
