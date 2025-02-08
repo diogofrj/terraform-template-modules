@@ -94,3 +94,15 @@ Seja bem-vindo e bons desenvolvimentos! 🚀
 
 🔍 trivy.yaml - arquivo de configuração do Trivy para executar o scan do código Terraform
 🚫 .trivyignore - arquivo de ignorar arquivos e diretórios para não serem executados no Trivy
+
+
+## 🔍 Checar versões atuais
+
+## tflint
+
+```bash
+curl -s https://api.github.com/repos/terraform-linters/tflint-ruleset-azurerm/releases/latest | jq -r '.tag_name | ltrimstr("v")'
+```
+
+[![TFLint Ruleset for Azure](https://img.shields.io/github/v/release/terraform-linters/tflint-ruleset-azurerm?label=Latest%20Release)](https://github.com/terraform-linters/tflint-ruleset-azurerm/releases)
+
