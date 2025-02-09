@@ -50,7 +50,7 @@ output "redis_cache_name" {
 
 output "postgresql_flexible_srv_name" {
   description = "Nome do servidor PostgreSQL flexível"
-  value       = local.naming_convention.postgresql_flexible_srv_name
+  value       = local.naming_convention.postgresql_server_name
 }
 
 output "workspace_name" {
@@ -120,7 +120,7 @@ output "private_dns_zone_containerregistry" {
 
 output "route_table" {
   description = "Nome da tabela de rotas"
-  value       = local.naming_convention.route_table
+  value       = local.naming_convention.route_table_name
 }
 
 output "nsg_name" {
@@ -130,12 +130,12 @@ output "nsg_name" {
 
 output "automation" {
   description = "Nome da automação"
-  value       = local.naming_convention.automation
+  value       = local.naming_convention.automation_name
 }
 
 output "eventhub_namespace" {
   description = "Nome do namespace do EventHub"
-  value       = local.naming_convention.eventhub_namespace
+  value       = local.naming_convention.event_hub_namespace
 }
 
 output "containerapp_name" {
@@ -161,39 +161,4 @@ output "public_subnet_name" {
 output "private_subnet_name" {
   description = "Nome da sub-rede privada"
   value       = local.naming_convention.private_subnet_name
-}
-
-output "tags" {
-  description = "Tags"
-  value       = local.tags
-}
-
-output "project" {
-  description = "Nome do projeto"
-  value       = var.project
-}
-
-output "environment" {
-  description = "Ambiente (dev, prod, etc.)"
-  value       = var.environment
-}
-
-output "organization" {
-  description = "Nome da organização"
-  value       = var.organization
-}
-
-output "CC" {
-  description = "Código de custo"
-  value       = var.CC
-}
-
-output "CC_OWNER" {
-  description = "Proprietário do código de custo"
-  value       = var.CC_OWNER
-}
-
-output "Vertical" {
-  description = "Vertical do projeto"
-  value       = var.Vertical
 }

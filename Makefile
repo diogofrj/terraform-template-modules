@@ -15,7 +15,6 @@ VAR_FILE            = terraform.tfvars
 help:
 	@echo "Comandos disponíveis:"
 	@echo "  login         	- Realiza login no Azure usando service principal"
-	@echo "  account_set   	- Define a subscription do Azure"
 	@echo "  init          	- Inicializa o Terraform"
 	@echo "  validate      	- Valida o Terraform"
 	@echo "  plan          	- Gera o plano de execução do Terraform"
@@ -24,6 +23,7 @@ help:
 	@echo "  all           	- Executa todo o processo (login, init, plan, apply)"
 	@echo "  pc	    		- Executa o pre-commit run -a"
 	@echo "  git    		- Executa o git add, commit e push"
+	@echo "  clean    		- Limpa o cache do Terraform e do Terragrunt"
 .DEFAULT_GOAL := help
 
 login:
