@@ -1,14 +1,16 @@
 module "labels" {
-  source      = "git::https://github.com/diogofrj/templates-tf-modules.git//examples/azure/labels?ref=v0.0.1"
-  project     = "module-vnet"
+  source      = "../../labels"
+  project     = "module-example"
   environment = "dev"
   region      = "eastus2"
 }
 
 
-module "template" {
+module "example" {
   #   source = "git::https://github.com/diogofrj/templates-tf-modules.git//examples/azure/aks?ref=v0.0.1"
   source      = "../"
+  resource_group_name = module.labels.resource_group_name
+  location = module.labels.location
 }
 
 

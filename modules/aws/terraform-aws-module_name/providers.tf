@@ -5,3 +5,6 @@ provider "azurerm" {
     }
   }
 }
+provider "random" {}
+
+provider "exemplo" {}
