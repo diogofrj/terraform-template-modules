@@ -17,6 +17,7 @@ echo " 1 - jq"
 echo " 2 - curl"
 echo " 3 - git"
 echo " 4 - unzip"
+echo " 5 - python3-pip"
 echo ""
 echo -e "${YELLOW}HashiCorp Tools:${NC}"
 echo " 10 - HashiCorp Consul 🌐"
@@ -30,21 +31,25 @@ echo " 17 - HashiCorp Boundary Desktop 🌐"
 echo ""
 echo -e "${YELLOW}Terraform Tools:${NC}"
 echo " 20 - Checkov (Terraform Security Scanner) 🔍"
-echo " 21 - Terraform-docs (Terraform Documentation Generator) 📜"
-echo " 22 - Terragrunt (Terraform CLI) 📜"
-echo " 23 - Terramaid (Terraform Diagrammer) 📜"
-echo " 24 - Tfswitch (Terraform Version Manager) 📜"
-echo " 25 - Infracost (Terraform Cost Estimation) 💰"
-echo " 26 - tflint (Terraform Linter) 📜"
-echo " 27 - Diagrams (Terraform Diagrammer) 📜"
+echo " 21 - Trivy (Terraform Vulnerability Scanner) 🔍"
+echo " 22 - Terraform-docs (Terraform Documentation Generator) 📜"
+echo " 23 - Terragrunt (Terraform CLI) 📜"
+echo " 24 - Terramaid (Terraform Diagrammer) 📜"
+echo " 25.1 - tfswitch (Terraform Version Manager) 📜"
+echo " 25.2 - tgswitch (Terragrunt Version Manager) 📜"
+echo " 26.1 - tfenv (Terraform Version Manager) 📜"
+echo " 26.2 - tgenv (Terragrunt Version Manager) 📜"
+echo " 27 - Infracost (Terraform Cost Estimation) 💰"
+echo " 28 - tflint (Terraform Linter) 📜"
+echo " 29 - terraform-compliance (Terraform Compliance) 📜"
 echo ""
 echo -e "${YELLOW}Cloud Tools:${NC}"
-echo " 30 - Azure CLI (Azure Command Line Interface) ☁️"
-echo " 31 - Azure Developer CLI (Azure Developer CLI) 🔧"
-echo " 32 - Azure Quick Review (Azure Quick Review) 🔍"
-echo " 33 - AzCopy (Azure Storage CLI) 📡"
-echo " 34 - AWS CLI (Amazon Web Services Command Line Interface) ☁️" 
-echo " 35 - Google Cloud SDK (Google Cloud SDK) ☁️"
+echo " 30 - Azure CLI (Azure Command Line Interface) az --help ☁️"
+echo " 31 - Azure Developer CLI (Azure Developer CLI) azd -h 🔧"
+echo " 32 - Azure Quick Review (Azure Quick Review) azqr -h 🔍"
+echo " 33 - AzCopy (Azure Storage CLI) azcopy --help 📡"
+echo " 34 - AWS CLI (Amazon Web Services Command Line Interface) aws help ☁️" 
+echo " 35 - Google Cloud SDK (Google Cloud SDK) gcloud --help ☁️"
 echo ""
 echo -e "${YELLOW}Kubernetes Tools:${NC}"
 echo " 40 - kubectl + Krew (Kubectl Plugin Manager) ☸️"
@@ -57,7 +62,7 @@ echo " 46 - KIND (Kubernetes in Docker) 🐶"
 echo ""
 echo -e "${YELLOW}Other Tools:${NC}"
 echo " 50 - Ansible (Automation Tool) 📜"
-echo " 51 - Ansible AWX/Tower (Automation Tool) 📜"  
+echo " 51 - Ansible AWX/Tower (Automation Tool) 📜" 
 echo " 52 - Docker + LazyDocker (Docker Container Manager) 🐳"
 echo " 53 - GitLab Runner (CI/CD) 🏃‍♂️"
 echo " 54 - ArgoCD (GitOps) 📜"
@@ -115,12 +120,18 @@ install_unzip() {
     sudo apt-get install unzip -y
     echo -e "${GREEN}unzip instalado com sucesso!${NC}"
 }
+install_python3_pip() {
+    echo -e "${GREEN}Instalando python3-pip...${NC}"
+    sudo apt-get install python3-pip pipx -y
+    echo -e "${GREEN}python3-pip instalado com sucesso!${NC}"
+}
 install_all_prerequisites() {
     echo -e "${GREEN}Instalando todos os pré-requisitos...${NC}"
     install_jq
     install_curl
     install_git
     install_unzip
+    install_python3_pip
     echo -e "${GREEN}Todos os pré-requisitos foram instalados com sucesso!${NC}"
 }
 #----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -409,6 +420,12 @@ install_checkov() {
     echo -e "${GREEN}Checkov ${LATEST_VERSION} instalado com sucesso!${NC}"
 }
 
+install_trivy() {
+    echo -e "${GREEN}Instalando Trivy...${NC}"
+    curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.59.1
+    echo -e "${GREEN}Trivy ${LATEST_VERSION} instalado com sucesso!${NC}"
+}
+
 install_terraform_docs() {
     echo -e "${GREEN}Instalando Terraform Docs...${NC}"
     
@@ -469,6 +486,7 @@ install_tfswitch() {
     
     # Remove o link simbólico existente do Terraform, se houver
     if [ -L "/usr/local/bin/terraform" ]; then
+        sudo chown -R $USER:$USER /usr/local/bin
         sudo unlink /usr/local/bin/terraform
         sudo rm -f /usr/local/bin/terraform
         sudo rm -rf /home/$USER/.terraform.versions
@@ -501,24 +519,82 @@ install_tfswitch() {
         echo -e "${RED}Arquivo zip do Terraform Switcher não foi baixado corretamente${NC}"
         return 1
     fi
-
-
-
-
-    # git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
-    # # Verifica qual shell está sendo usado
-    # if [ -n "$BASH_VERSION" ]; then
-    #     echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bashrc
-    #     echo -e "${GREEN}Configuração adicionada ao .bashrc${NC}"
-    # elif [ -n "$ZSH_VERSION" ]; then
-    #     echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.zshrc
-    #     echo -e "${GREEN}Configuração adicionada ao .zshrc${NC}"
-    # else
-    #     echo -e "${YELLOW}Shell não identificado. Adicione manualmente ao seu arquivo de configuração:${NC}"
-    #     echo 'export PATH="$HOME/.tfenv/bin:$PATH"'
-    # fi
-    
 }
+
+install_tgswitch () {
+    echo -e "${GREEN}Instalando Terragrunt Switcher...${NC}"
+    curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh | bash
+    echo -e "${GREEN}Terragrunt Switcher ${LATEST_VERSION} instalado com sucesso!${NC}"
+}
+
+install_tfenv () {
+    echo -e "${GREEN}Instalando Terraform Version Manager...${NC}"
+    
+    # Verifica se o tfenv já está instalado
+    if [ ! -d "$HOME/.tfenv" ]; then
+        git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
+    fi
+
+    # Configuração do PATH
+    PATH_CONFIG='export PATH="$HOME/.tfenv/bin:$PATH"'
+
+    # Verifica e configura para bash se necessário
+    if [ -f "$HOME/.bashrc" ]; then
+        if ! grep -q "$PATH_CONFIG" "$HOME/.bashrc"; then
+            echo "$PATH_CONFIG" >> ~/.bashrc
+            echo -e "${GREEN}Configuração adicionada ao .bashrc${NC}"
+        else
+            echo -e "${YELLOW}Configuração já existe no .bashrc${NC}"
+        fi
+    fi
+
+    # Verifica e configura para zsh se necessário
+    if [ -f "$HOME/.zshrc" ]; then
+        if ! grep -q "$PATH_CONFIG" "$HOME/.zshrc"; then
+            echo "$PATH_CONFIG" >> ~/.zshrc
+            echo -e "${GREEN}Configuração adicionada ao .zshrc${NC}"
+        else
+            echo -e "${YELLOW}Configuração já existe no .zshrc${NC}"
+        fi
+    fi
+
+    echo -e "${GREEN}Terraform Version Manager instalado com sucesso!${NC}"
+}
+install_tgenv () {
+    echo -e "${GREEN}Instalando Terragrunt Version Manager...${NC}"
+    
+    # Verifica se o tgenv já está instalado
+    if [ ! -d "$HOME/.tgenv" ]; then
+        git clone --depth=1 --branch main https://github.com/tgenv/tgenv.git ~/.tgenv
+    fi
+
+    # Configuração do PATH
+    PATH_CONFIG='export PATH="$HOME/.tgenv/bin:$PATH"'
+
+    # Verifica e configura para bash se necessário
+    if [ -f "$HOME/.bashrc" ]; then
+        if ! grep -q "$PATH_CONFIG" "$HOME/.bashrc"; then
+            echo "$PATH_CONFIG" >> ~/.bashrc
+            echo -e "${GREEN}Configuração adicionada ao .bashrc${NC}"
+        else
+            echo -e "${YELLOW}Configuração já existe no .bashrc${NC}"
+        fi
+    fi
+
+    # Verifica e configura para zsh se necessário
+    if [ -f "$HOME/.zshrc" ]; then
+        if ! grep -q "$PATH_CONFIG" "$HOME/.zshrc"; then
+            echo "$PATH_CONFIG" >> ~/.zshrc
+            echo -e "${GREEN}Configuração adicionada ao .zshrc${NC}"
+        else
+            echo -e "${YELLOW}Configuração já existe no .zshrc${NC}"
+        fi
+    fi
+
+    echo -e "${GREEN}Terragrunt Version Manager instalado com sucesso!${NC}"
+}
+
+
 
 install_infracost() {
     echo "Installing Infracost..."
@@ -532,15 +608,28 @@ install_tflint () {
     echo -e "${GREEN}TFLint instalado com sucesso!${NC}"
 }
 
+install_terraform_compliance() {
+    echo "Installing Terraform Compliance..."
+    if ! command -v pipx &> /dev/null; then
+        echo -e "${YELLOW}pipx não encontrado. Instalando pipx...${NC}"
+        install_python3_pip
+    fi
+    pipx install terraform-compliance
+    echo -e "${GREEN}Terraform Compliance instalado com sucesso!${NC}"
+}
+
 install_all_terraform_tools() {
     echo -e "${GREEN}Instalando todas as ferramentas Terraform...${NC}"
     install_checkov
+    install_trivy
     install_terraform_docs
     install_terragrunt
     install_terramaid
     install_tfswitch
+    install_tgswitch
     install_infracost
     install_tflint
+    install_terraform_compliance
     echo -e "${GREEN}Todas as ferramentas Terraform foram instaladas!${NC}"
 }
 #----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -735,7 +824,7 @@ install_kind() {
         esac
         
         # Baixa a última versão do KIND
-        curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-$ARCH_TAG
+        curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.1.0/kind-linux-$ARCH_TAG
         chmod +x ./kind
         sudo mv ./kind /usr/local/bin/kind
         
@@ -833,53 +922,52 @@ install_ansible() {
     echo -e "${GREEN}Ansible instalado com sucesso!${NC}"
 }
 install_awx() {
-    echo -e "${GREEN}Instalando AWX...${NC}"
-    # Verifica se o Docker está instalado
-    if ! command -v docker &> /dev/null; then
-        echo -e "${YELLOW}Docker não encontrado. Instalando Docker primeiro...${NC}"
-        install_docker
-    fi
-    # Verifica se o Docker está instalado
-    if ! command -v minikube &> /dev/null; then
-        echo -e "${YELLOW}Minikube não encontrado. Instalando Minikube primeiro...${NC}"
-        install_minikube
-    fi
-    # Verifica se o Kubectl está instalado
-    if ! command -v kubectl &> /dev/null; then
-        echo -e "${YELLOW}Kubectl não encontrado. Instalando Kubectl primeiro...${NC}"
-        install_kubectl
-    fi
-    sudo apt install make -y
-    git clone -b 2.19.0 https://github.com/ansible/awx-operator.git
-    cd awx-operator/
-    # git checkout 2.19.1 # Or whatever the latest version is
-    export NAMESPACE=ansible-awx
-    make deploy
-    kubectl create namespace ansible-awx --dry-run=client -o yaml | kubectl apply -f -
-    kubectl config set-context --current --namespace=ansible-awx
-    kubectl create -f awx-demo.yml -n ansible-awx
+#     echo -e "${GREEN}Instalando AWX...${NC}"
+#     # Verifica se o Docker está instalado
+#     if ! command -v docker &> /dev/null; then
+#         echo -e "${YELLOW}Docker não encontrado. Instalando Docker primeiro...${NC}"
+#         install_docker
+#     fi
+#     # Verifica se o Docker está instalado
+#     if ! command -v minikube &> /dev/null; then
+#         echo -e "${YELLOW}Minikube não encontrado. Instalando Minikube primeiro...${NC}"
+#         install_minikube
+#     fi
+#     # Verifica se o Kubectl está instalado
+#     if ! command -v kubectl &> /dev/null; then
+#         echo -e "${YELLOW}Kubectl não encontrado. Instalando Kubectl primeiro...${NC}"
+#         install_kubectl
+#     fi
+#     sudo apt install make -y
+#     git clone -b 2.19.0 https://github.com/ansible/awx-operator.git
+#     cd awx-operator/
+#     # git checkout 2.19.1 # Or whatever the latest version is
+#     export NAMESPACE=ansible-awx
+#     make deploy
+#     kubectl create namespace ansible-awx --dry-run=client -o yaml | kubectl apply -f -
+#     kubectl config set-context --current --namespace=ansible-awx
+#     kubectl create -f awx-demo.yml -n ansible-awx
 
-    echo "Aguardando os pods iniciarem..."
-    kubectl wait --for=condition=ready pod -l "app.kubernetes.io/name=awx-operator" -n ansible-awx --timeout=300s
-    kubectl get pods -n ansible-awx
-    kubectl get svc -n ansible-awx
+#     echo "Aguardando os pods iniciarem..."
+#     kubectl wait --for=condition=ready pod -l "app.kubernetes.io/name=awx-operator" -n ansible-awx --timeout=300s
+#     kubectl get pods,svc -n ansible-awx
 
-    # Obtém e exibe a senha do admin
-    echo -e "${YELLOW}Senha do administrador AWX:${NC}"
-    kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" -n ansible-awx | base64 --decode
-    echo ""
-    echo -e "${YELLOW}Usuário: admin${NC}"
-    echo -e "${YELLOW}Guarde esta senha em um local seguro!${NC}"
+#     # Obtém e exibe a senha do admin
+#     echo -e "${YELLOW}Senha do administrador AWX:${NC}"
+#     kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" -n ansible-awx | base64 --decode
+#     echo ""
+#     echo -e "${YELLOW}Usuário: admin${NC}"
+#     echo -e "${YELLOW}Guarde esta senha em um local seguro!${NC}"
 
-    minikube service awx-demo-service --url -n ansible-awx
-    kubectl port-forward service/awx-demo-service -n ansible-awx --address 0.0.0.0 10445:80 &> /dev/null &
+#     minikube service awx-demo-service --url -n ansible-awx
+#     kubectl port-forward service/awx-demo-service -n ansible-awx --address 0.0.0.0 10445:80 &> /dev/null &
 
-    echo -e "${GREEN}AWX instalado com sucesso!${NC}"
-    # Obtém o IP do host
-    HOST_IP=$(hostname -I | awk '{print $1}')
-    echo -e "${YELLOW}AWX está disponível em: http://${HOST_IP}:10445/#/login${NC}"
+#     echo -e "${GREEN}AWX instalado com sucesso!${NC}"
+#     # Obtém o IP do host
+#     HOST_IP=$(hostname -I | awk '{print $1}')
+#     echo -e "${YELLOW}AWX está disponível em: http://${HOST_IP}:10445/#/login${NC}"
 
-
+echo "Instalação Pendente"
 }
 
 install_docker() {
@@ -1251,12 +1339,17 @@ case $tool_choice in
 
     # Terraform Tools
     20) install_checkov ;;
-    21) install_terraform_docs ;;
-    22) install_terragrunt ;;
-    23) install_terramaid ;;
-    24) install_tfswitch ;;
-    25) install_infracost ;;
-    26) install_tflint ;;
+    21) install_trivy ;;
+    22) install_terraform_docs ;;
+    23) install_terragrunt ;;
+    24) install_terramaid ;;
+    25.1) install_tfswitch ;;
+    25.2) install_tgswitch ;;
+    26.1) install_tfenv ;;
+    26.2) install_tgenv ;;
+    27) install_infracost ;;
+    28) install_tflint ;;
+    29) install_terraform_compliance ;;
     
     # Cloud Tools
     30) install_azurecli ;;

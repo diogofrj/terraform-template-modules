@@ -24,3 +24,4 @@ terraform.rc
 
 
 .terraform.lock.hcl
+modules/proxmox/packer/iso/credentials.pkr.hcl

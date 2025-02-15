@@ -2,6 +2,18 @@
 
 Este repositório foi criado para servir como base de exemplos, onde você pode baixar, customizar e desenvolver módulos reutilizáveis para serem integrados em diversos projetos. Ele organiza scripts, templates e configurações que auxiliam na implementação de infraestrutura como código, utilizando ferramentas como Terraform, Terragrunt, Azure CLI, entre outras. 🚀
 
+Pre-requisitos:
+
+- tfenv (Terraform Version Manager) 🔄 `./scripts/tools/install-tools.sh` - Opção 26.1
+- tgenv (Terragrunt Version Manager) 🔄 `./scripts/tools/install-tools.sh` - Opção 26.2
+- tflint (Terraform Linter) 🔍 `./scripts/tools/install-tools.sh` - Opção 28
+- Terraform-docs (Documentação Terraform) 📚 `./scripts/tools/install-tools.sh` - Opção 22
+- Trivy ou Checkov (Scanners de Segurança) 🔒 `./scripts/tools/install-tools.sh` - Opção 21 e 20 respectivamente
+- Azure CLI (Interface de Linha de Comando Azure) ☁️ `./scripts/tools/install-tools.sh` - Opção 30
+- Docker + Docker Compose + lazydocker (Containers) 🐋 `./scripts/tools/install-tools.sh` - Opção 52
+- Python 3.10+ (pipx) 🐍 `./scripts/tools/install-tools.sh` - Opção 90
+- Pre-commit-hooks (Ganchos de Pre-commit) 🔨 `./scripts/tools/install-tools.sh` - Opção 56
+
 ## 🏗️ Estrutura do Repositório
 
 A seguir, uma visão geral dos principais diretórios e arquivos:
@@ -63,7 +75,7 @@ Dentro dos diretórios de templates, você encontrará também arquivos e subpas
 1. **📥 Clone o repositório**  
    Faça o clone do repositório em sua máquina:
    ```bash
-   git clone https://github.com/diogofrj/templates-tf-modules.git
+   git clone https://github.com/diogofrj/terraform-template-modules.git
    ```
 
 2. **⚙️ Configure as Variáveis de Ambiente**  

@@ -15,7 +15,6 @@ VAR_FILE            = terraform.tfvars
 help:
 	@echo "Comandos disponíveis:"
 	@echo "  login         	- Realiza login no Azure usando service principal"
-	@echo "  account_set   	- Define a subscription do Azure"
 	@echo "  init          	- Inicializa o Terraform"
 	@echo "  validate      	- Valida o Terraform"
 	@echo "  plan          	- Gera o plano de execução do Terraform"
@@ -24,6 +23,7 @@ help:
 	@echo "  all           	- Executa todo o processo (login, init, plan, apply)"
 	@echo "  pc	    		- Executa o pre-commit run -a"
 	@echo "  git    		- Executa o git add, commit e push"
+	@echo "  clean    		- Limpa o cache do Terraform e do Terragrunt"
 .DEFAULT_GOAL := help
 
 login:
@@ -74,10 +74,41 @@ pc:
 	@git add .
 	@pre-commit run -a
 
+GIT_TAG=$(shell git describe --tags --abbrev=0)
 git:
 	@echo ""
 	@echo "Git add, commit e push"
 	@git add .
-	@read -p "Digite sua mensagem de commit: " message; \
-	git commit -m "$$message"
+	@echo "Tag atual: $(GIT_TAG)"
+	@if [ "$(GIT_TAG)" != "Nenhuma tag encontrada" ]; then \
+		read -p "Deseja sobrescrever a tag atual? (s/n): " overwrite; \
+		if [ "$$overwrite" = "s" ]; then \
+			read -p "Digite sua mensagem de commit: " message; \
+			git commit -m "$$message"; \
+			git tag -a $(GIT_TAG) -m "$$message" -f; \
+			git push origin $(GIT_TAG) -f; \
+		else \
+			read -p "Digite sua mensagem de commit: " message; \
+			read -p "Digite a nova tag (ex: v1.0.0): " new_tag; \
+			git commit -m "$$message"; \
+			git tag -a $(new_tag) -m "$$message"; \
+			git push origin $(new_tag); \
+		fi \
+	else \
+		read -p "Digite sua mensagem de commit: " message; \
+		read -p "Digite a tag (ex: v1.0.0): " tag; \
+		git commit -m "$$message"; \
+		git tag -a $(tag) -m "$$message"; \
+		git push origin $(tag); \
+	fi
 	@git push
+
+
+clean:
+	@echo ""
+	@echo "Limpando cache do Terragrunt"
+	@find . -type d -name '.terragrunt-cache' -prune -exec rm -rf {} \;
+	@echo "Limpando cache do Terraform"
+	@find . -type d -name '.terraform'  -prune -exec rm -rf {} \;
+	@find . -type f -name '.terraform.lock.hcl' -exec rm -f {} \;
+

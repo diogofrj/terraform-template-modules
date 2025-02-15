@@ -1,0 +1,32 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: pt_BR.UTF-8
+  keyboard:
+    layout: pt-br
+  ssh:
+    install-server: true
+    allow-pw: true
+    disable_root: true
+    ssh_quiet_keygen: true
+    allow_public_ssh_keys: true
+  packages:
+    - qemu-guest-agent
+    - sudo
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
+  user-data:
+    package_upgrade: false
+    timezone: America/Sao_Paulo
+    users:
+      - name: lab
+        groups: [adm, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+        password: lab
+        ssh_authorized_keys:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCdrc8doP+3x1O28kWEUptCqAC9Oxt77CmyCWYPH00VtI0LJb+LjO//CHF5KVbA11woMeAqs8bgPKfy+pWG/yywuuuSDKI61TpOJ7UBwy41LTKzfbGNJ+qnyajMnl37lYJ7qQBLfjY+yS8oMcm5TRmysrxzJGjJCSXlfotlx3tjcX6MbnnVG/PZnkhqxlK+ZP9U2GpfxL0rs9QtrthYqfT0EM3KKHNQMSvyMoKOf/jNCO+U9y7ajXdfV5hmHCOMXZ12dvg6TZqla+ZpkZcHbEI8OMCvjwhp8G9wp38XLwzAFcWY8OLWNqciFpQvNMfwb0gcCXFOawwWibaepnBsVUC/OFn6iEiUmfzpepqDZ/RzCfR3cYNlQcCMHQahh3w3cmOweeOAm7fYOp5oTW+56Ipn1UzgYcUkgG+S4D85EQgHsIbc7dI9evwqmYYSM9DhmXL2uqPD5HQellhAuvL+vKRIvrHnneCSF/TYo4hh51auc4yYEGrMS/wdhffPc29ashSDSEHVGal++DiLuysIInPttNZOqUNn/4kOPgbyDl10gs+9lkGv9PY4jsz51Wy9Rg2ZdbYOiqyhQunqPnE0QVKgyNtvCWD1vWASKjkroG0WRj+c9CP0CtF3X0f8Ik5ERTqlzNktY488ub5V9tz710NNKBYHC+AxZfzu+Mu31zw62w== dfs@outlook.com.br
