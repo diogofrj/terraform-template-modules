@@ -78,7 +78,7 @@ locals {
     data_lake_store_name     = lower("dls-${var.project}-${var.environment}-${var.region}")
     data_lake_analytics_name = lower("dla-${var.project}-${var.environment}-${var.region}")
     event_hub_name           = lower("evh-${var.project}-${var.environment}-${var.region}")
-    event_hub_namespace      = lower("ehn-${var.project}-${var.environment}-${var.region}")
+    event_hub_namespace      = lower("evhns-${var.project}-${var.environment}-${var.region}")
     hadoop_cluster_name      = lower("hadoop-${var.project}-${var.environment}-${var.region}")
     hbase_cluster_name       = lower("hbase-${var.project}-${var.environment}-${var.region}")
     kafka_cluster_name       = lower("kafka-${var.project}-${var.environment}-${var.region}")
